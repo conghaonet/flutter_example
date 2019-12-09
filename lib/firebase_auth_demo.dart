@@ -28,6 +28,28 @@ class _FirebaseAuthDemoState extends State<FirebaseAuthDemo> {
     ],
   );
   final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  // Example code of how to sign in with Github.
+  Future<void> _signInWithGithub() async {
+    final AuthCredential credential = GithubAuthProvider.getCredential(
+      token: '2dadb48b3afde479de51d77584e8d4d0de16d537',
+    );
+    AuthResult authResult = await _auth.signInWithCredential(credential);
+    final FirebaseUser user = authResult?.user;
+    assert(user.email != null);
+    assert(user.displayName != null);
+    assert(!user.isAnonymous);
+    assert(await user.getIdToken() != null);
+
+    final FirebaseUser currentUser = await _auth.currentUser();
+    assert(user.uid == currentUser.uid);
+    if (user != null) {
+      Fluttertoast.showToast(msg: 'Successfully signed in with Github. ' + user.uid);
+    } else {
+      Fluttertoast.showToast(msg: 'Failed to sign in with Github.');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -79,6 +101,13 @@ class _FirebaseAuthDemoState extends State<FirebaseAuthDemo> {
               Fluttertoast.showToast(msg: 'sing out');
             },
             child: Text('FirebaseAuth sing out',),
+          ),
+          RaisedButton(
+            onPressed: () async {
+              await _signInWithGithub();
+              Fluttertoast.showToast(msg: 'GitHub sing in');
+            },
+            child: Text('GitHub sing in',),
           ),
         ],
       ),
