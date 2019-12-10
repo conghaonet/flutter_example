@@ -16,19 +16,17 @@ class _ListDemoState extends State<ListDemo> {
         body: SafeArea(
           child: Padding(
             padding: EdgeInsets.all(8),
-            child: RefreshIndicator(
-              child: ListView.separated(
-                itemBuilder: (context, index) {
-                  return _buildItem(index);
-                },
-                separatorBuilder: (BuildContext context, int index) {
-                  return Container(
-                    height: 8,
-                    color: Colors.transparent,
-                  );
-                },
-                itemCount: 30,
-              ),
+            child: ListView.separated(
+              itemBuilder: (context, index) {
+                return _buildItem(index);
+              },
+              separatorBuilder: (BuildContext context, int index) {
+                return Container(
+                  height: 8,
+                  color: Colors.transparent,
+                );
+              },
+              itemCount: 30,
             ),
           ),
         ),
