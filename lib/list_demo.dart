@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 void main() => (runApp(ListDemo()));
 
@@ -9,6 +12,16 @@ class ListDemo extends StatefulWidget {
 
 class _ListDemoState extends State<ListDemo> {
   var id = 500;
+
+  Future<void> _refreshData() async {
+    return Future.delayed(Duration(seconds: 3)).then((value){
+      setState(() {
+        id = id==500 ? 250 : 500;
+        Fluttertoast.showToast(msg: 'id = $id');
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -16,17 +29,20 @@ class _ListDemoState extends State<ListDemo> {
         body: SafeArea(
           child: Padding(
             padding: EdgeInsets.all(8),
-            child: ListView.separated(
-              itemBuilder: (context, index) {
-                return _buildItem(index);
-              },
-              separatorBuilder: (BuildContext context, int index) {
-                return Container(
-                  height: 8,
-                  color: Colors.transparent,
-                );
-              },
-              itemCount: 30,
+            child: RefreshIndicator(
+              onRefresh: _refreshData,
+              child: ListView.separated(
+                itemBuilder: (context, index) {
+                  return _buildItem(index);
+                },
+                separatorBuilder: (BuildContext context, int index) {
+                  return Container(
+                    height: 8,
+                    color: Colors.transparent,
+                  );
+                },
+                itemCount: 30,
+              ),
             ),
           ),
         ),
@@ -45,6 +61,7 @@ class _ListDemoState extends State<ListDemo> {
         borderRadius: BorderRadius.all(Radius.circular(16)),
         child: Image.network(
           'https://picsum.photos/id/${id + index}/300/100',
+          height: 100,
           width: double.infinity,
           fit: BoxFit.cover,
         ),
