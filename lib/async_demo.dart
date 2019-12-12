@@ -1,5 +1,8 @@
+import 'dart:isolate';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 void main() => runApp(MyApp());
 
@@ -31,7 +34,11 @@ class _AsyncDemoState extends State<AsyncDemo> {
             CircularProgressIndicator(),
             FlatButton(
               onPressed: () async {
-                _count = await compute(countEven, 1000000000);
+                _count = countEven(1000000000);
+//                _count = await compute(countEven, 1000000000);
+//                _count = await isolateCountEven(1000000000);
+                Fluttertoast.showToast(msg: _count.toString());
+
                 setState(() {});
               },
               child: Text(_count.toString()),),
@@ -50,6 +57,26 @@ class _AsyncDemoState extends State<AsyncDemo> {
       num--;
     }
     return count;
+  }
 
+  static Future<dynamic> isolateCountEven(int num) async {
+    ReceivePort receivePort = ReceivePort();
+    await Isolate.spawn(countEven2, receivePort.sendPort);
+    SendPort sendPort = await receivePort.first as SendPort;
+    receivePort.close();
+    final response = ReceivePort();
+    sendPort.send([response.sendPort, num]);
+    return response.first;
+  }
+
+  static void countEven2(SendPort sendPort) {
+    final receivePort = ReceivePort();
+    sendPort.send(receivePort.sendPort);
+    receivePort.listen((message) {
+      receivePort.close();
+      final send = message[0] as SendPort;
+      final n = message[1] as int;
+      send.send(countEven(n));
+    });
   }
 }
