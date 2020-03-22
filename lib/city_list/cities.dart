@@ -48,25 +48,27 @@ class _CitiesState extends State<Cities> {
       ),
       body: SafeArea(
         child: Container(
-          child: ListView.custom(
-            itemExtent: 120,
-            cacheExtent: 0.0,
-            childrenDelegate: SliverChildBuilderDelegate((context, index) {
-                return ProvinceItem(
-                  province: provinces[index],
-                  index: index,
-                  key: ValueKey<ProvinceEntity>(provinces[index]),
-                );
-              },
-              childCount: provinces.length,
-              addRepaintBoundaries: false, //是否重新绘制边界，false时可能会提高性能。
-              findChildIndexCallback: (Key key) {
-                  final ValueKey valueKey = key;
-                  final ProvinceEntity data = valueKey.value;
-                  final index = provinces.indexOf(data);
-                  return index;
-              },
-
+          margin: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+          child: DefaultTextStyle(
+            style: TextStyle(fontSize: 18, color: Colors.black),
+            child: ListView.custom(
+              cacheExtent: 0.0,
+              childrenDelegate: SliverChildBuilderDelegate((context, index) {
+                  return ProvinceItem(
+                    province: provinces[index],
+                    index: index,
+                    key: ValueKey<ProvinceEntity>(provinces[index]),
+                  );
+                },
+                childCount: provinces.length,
+                addRepaintBoundaries: false, //是否重新绘制边界，false时可能会提高性能。
+                findChildIndexCallback: (Key key) {
+                    final ValueKey valueKey = key;
+                    final ProvinceEntity data = valueKey.value;
+                    final index = provinces.indexOf(data);
+                    return index;
+                },
+              ),
             ),
           ),
         ),
