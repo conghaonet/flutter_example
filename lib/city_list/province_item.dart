@@ -22,6 +22,7 @@ class _ProvinceItemState extends State<ProvinceItem> {
         ListView.custom(
           primary: false,
           shrinkWrap: true,
+          cacheExtent: 0.0,
           childrenDelegate: SliverChildBuilderDelegate((context, index) {
               return CityItem(
                 city: widget.province.city[index],

@@ -23,6 +23,7 @@ class _CityItemState extends State<CityItem> {
           itemExtent: 28,
           primary: false,
           shrinkWrap: true,
+          cacheExtent: 0.0,
           childrenDelegate: SliverChildBuilderDelegate((context, index) {
             return AreaItem(
               area: widget.city.area[index],
