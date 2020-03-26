@@ -13,15 +13,16 @@ class Cities extends StatefulWidget {
 
 /// 使用隔离序列化可避免UI阻塞，但是会耗费更多内存资源和时间。
 List<ProvinceEntity> parseJson(String strJson) {
-  print('parseJson start>>>> '+DateTime.now().toString());
+  print('parseJson start>>>> ' + DateTime.now().toString());
   List<dynamic> listDynamic = jsonDecode(strJson);
-  List<ProvinceEntity> provinces = listDynamic.map((js) =>ProvinceEntity.fromJson(js)).toList();
-  print('parseJson end<<<< '+DateTime.now().toString());
+  List<ProvinceEntity> provinces = listDynamic.map((js) => ProvinceEntity.fromJson(js)).toList();
+  print('parseJson end<<<< ' + DateTime.now().toString());
   return provinces;
 }
 
 class _CitiesState extends State<Cities> {
   List<ProvinceEntity> provinces = [];
+
   @override
   void initState() {
     super.initState();
@@ -29,15 +30,13 @@ class _CitiesState extends State<Cities> {
   }
 
   void _initData() async {
-    print('start>>>> '+DateTime.now().toString());
+    print('start>>>> ' + DateTime.now().toString());
     String strJson = await DefaultAssetBundle.of(context).loadString('assets/city_code.json');
 //    List<ProvinceEntity> provinces = await compute(parseJson, strJson);
     List<dynamic> listDynamic = jsonDecode(strJson);
-    provinces = listDynamic.map((js) =>ProvinceEntity.fromJson(js)).toList();
-    print('end<<<< '+DateTime.now().toString());
-    setState(() {
-
-    });
+    provinces = listDynamic.map((js) => ProvinceEntity.fromJson(js)).toList();
+    print('end<<<< ' + DateTime.now().toString());
+    setState(() {});
   }
 
   @override
@@ -51,28 +50,53 @@ class _CitiesState extends State<Cities> {
           margin: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
           child: DefaultTextStyle(
             style: TextStyle(fontSize: 18, color: Colors.black),
-            child: ListView.custom(
-              cacheExtent: 0.0,
-              childrenDelegate: SliverChildBuilderDelegate((context, index) {
-                  return ProvinceItem(
-                    province: provinces[index],
-                    index: index,
-                    key: ValueKey<ProvinceEntity>(provinces[index]),
-                  );
-                },
-                childCount: provinces.length,
-                addRepaintBoundaries: false, //是否重新绘制边界，false时可能会提高性能。
-                findChildIndexCallback: (Key key) {
-                    final ValueKey valueKey = key;
-                    final ProvinceEntity data = valueKey.value;
-                    final index = provinces.indexOf(data);
-                    return index;
-                },
-              ),
+            child: Stack(
+              children: <Widget>[
+                ListView.custom(
+                  physics: ClampingScrollPhysics(),
+                  cacheExtent: 0.0,
+                  childrenDelegate: ProvinceDelegate(
+                    (context, index) {
+                      return ProvinceItem(
+                        province: provinces[index],
+                        index: index,
+                        key: ValueKey<ProvinceEntity>(provinces[index]),
+                      );
+                    },
+                    childCount: provinces.length,
+                    findChildIndexCallback: (Key key) {
+                      final ValueKey valueKey = key;
+                      final ProvinceEntity data = valueKey.value;
+                      final index = provinces.indexOf(data);
+                      return index;
+                    },
+                  ),
+                ),
+//                Text('aaaaa'),
+              ],
             ),
           ),
         ),
       ),
     );
+  }
+}
+
+class ProvinceDelegate extends SliverChildBuilderDelegate {
+  ProvinceDelegate(
+    IndexedWidgetBuilder builder, {
+    int childCount,
+    ChildIndexGetter findChildIndexCallback,
+  }) : super(
+          builder,
+          childCount: childCount,
+          findChildIndexCallback: findChildIndexCallback,
+          addAutomaticKeepAlives: true,
+          addRepaintBoundaries: true, //是否重新绘制边界，false时可能会提高性能。
+        );
+
+  @override
+  void didFinishLayout(int firstIndex, int lastIndex) {
+    print('firstIndex=$firstIndex    lastIndex=$lastIndex');
   }
 }

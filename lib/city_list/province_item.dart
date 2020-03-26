@@ -1,11 +1,14 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_example/city_list/city_item.dart';
 import 'package:flutter_example/city_list/entity.dart';
 
 class ProvinceItem extends StatefulWidget {
   final ProvinceEntity province;
   final int index;
-  ProvinceItem({this.province, this.index, Key key}): super(key: key);
+
+  ProvinceItem({this.province, this.index, Key key}) : super(key: key);
+
   @override
   _ProvinceItemState createState() => _ProvinceItemState();
 }
@@ -18,12 +21,17 @@ class _ProvinceItemState extends State<ProvinceItem> {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.max,
       children: <Widget>[
-        Text('省 -- ${widget.index} - ${widget.province.name}'),
+        Container(
+          color: Colors.grey,
+          width: double.infinity,
+          child: Text('省 -- ${widget.index} - ${widget.province.name}'),
+        ),
         ListView.custom(
           primary: false,
           shrinkWrap: true,
           cacheExtent: 0.0,
-          childrenDelegate: SliverChildBuilderDelegate((context, index) {
+          childrenDelegate: SliverChildBuilderDelegate(
+            (context, index) {
               return CityItem(
                 city: widget.province.city[index],
                 index: index,

@@ -19,27 +19,27 @@ class _CityItemState extends State<CityItem> {
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         Text('-- 市 -- ${widget.index} - ${widget.city.name}'),
-        ListView.custom(
-          itemExtent: 28,
-          primary: false,
-          shrinkWrap: true,
-          cacheExtent: 0.0,
-          childrenDelegate: SliverChildBuilderDelegate((context, index) {
-            return AreaItem(
-              area: widget.city.area[index],
-              index: index,
-              key: ValueKey<AreaEntity>(widget.city.area[index]),
-            );},
-            childCount: widget.city.area?.length ?? 0,
-            addRepaintBoundaries: false, //是否重新绘制边界，false时可能会提高性能。
-            findChildIndexCallback: (Key key) {
-              final ValueKey valueKey = key;
-              final AreaEntity data = valueKey.value;
-              final index = widget.city.area.indexOf(data);
-              return index;
-            },
+        if(widget.city.area != null && widget.city.area.length > 0)
+          ListView.custom(
+            primary: false,
+            shrinkWrap: true,
+            cacheExtent: 0.0,
+            childrenDelegate: SliverChildBuilderDelegate((context, index) {
+              return AreaItem(
+                area: widget.city.area[index],
+                index: index,
+                key: ValueKey<AreaEntity>(widget.city.area[index]),
+              );},
+              childCount: widget.city.area?.length ?? 0,
+              addRepaintBoundaries: true, //是否重新绘制边界，false时可能会提高性能。
+              findChildIndexCallback: (Key key) {
+                final ValueKey valueKey = key;
+                final AreaEntity data = valueKey.value;
+                final index = widget.city.area.indexOf(data);
+                return index;
+              },
+            ),
           ),
-        ),
       ],
     );
   }
