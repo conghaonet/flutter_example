@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_example/city_list/city_item.dart';
 import 'package:flutter_example/city_list/entity.dart';
+import 'package:flutter_example/city_list/province_notifier.dart';
+import 'package:provider/provider.dart';
 
 class ProvinceItem extends StatefulWidget {
   final ProvinceEntity province;
@@ -21,10 +23,15 @@ class _ProvinceItemState extends State<ProvinceItem> {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.max,
       children: <Widget>[
-        Container(
-          color: Colors.grey,
-          width: double.infinity,
-          child: Text('省 -- ${widget.index} - ${widget.province.name}'),
+        InkWell(
+          onTap: () {
+//            Provider.of<ProvinceNotifier>(context, listen: false).updateProvince(widget.index);
+          },
+          child: Container(
+            color: Colors.grey,
+            width: double.infinity,
+            child: Text('省 -- ${widget.index} - ${widget.province.name}'),
+          ),
         ),
         ListView.custom(
           primary: false,

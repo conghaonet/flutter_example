@@ -3,8 +3,12 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_example/city_list/app_event_bus.dart';
 import 'package:flutter_example/city_list/entity.dart';
+import 'package:flutter_example/city_list/province_event.dart';
 import 'package:flutter_example/city_list/province_item.dart';
+import 'package:flutter_example/city_list/province_notifier.dart';
+import 'package:provider/provider.dart';
 
 class Cities extends StatefulWidget {
   @override
@@ -36,6 +40,9 @@ class _CitiesState extends State<Cities> {
     List<dynamic> listDynamic = jsonDecode(strJson);
     provinces = listDynamic.map((js) => ProvinceEntity.fromJson(js)).toList();
     print('end<<<< ' + DateTime.now().toString());
+    eventBus.on<ProvinceEvent>().listen((event) {
+      Provider.of<ProvinceNotifier>(context, listen: false).updateProvince(event.provinceIndex);
+    });
     setState(() {});
   }
 
@@ -72,7 +79,10 @@ class _CitiesState extends State<Cities> {
                     },
                   ),
                 ),
-//                Text('aaaaa'),
+                Container(
+                  color: Colors.blue.withOpacity(0.5),
+                  child: Text('index = ${Provider.of<ProvinceNotifier>(context).provinceIndex}'),
+                ),
               ],
             ),
           ),
@@ -98,5 +108,6 @@ class ProvinceDelegate extends SliverChildBuilderDelegate {
   @override
   void didFinishLayout(int firstIndex, int lastIndex) {
     print('firstIndex=$firstIndex    lastIndex=$lastIndex');
+    eventBus.fire(ProvinceEvent(firstIndex));
   }
 }
