@@ -10,9 +10,13 @@ class ProvinceEntity {
   bool hidden;
   List<CityEntity> city;
 
-  ProvinceEntity(this.name, this.code, this.city, {this.hidden = false});
+  ProvinceEntity(this.name, this.code, this.hidden, this.city,);
 
-  factory ProvinceEntity.fromJson(Map<String, dynamic> json) => _$ProvinceEntityFromJson(json);
+  factory ProvinceEntity.fromJson(Map<String, dynamic> json) {
+    final province = _$ProvinceEntityFromJson(json);
+    if(province.hidden == null) province.hidden = false;
+    return province;
+  }
   Map<String, dynamic> toJson() => _$ProvinceEntityToJson(this);
 }
 
@@ -23,9 +27,13 @@ class CityEntity {
   bool hidden;
   List<AreaEntity> area;
 
-  CityEntity(this.name, this.code, this.area, {this.hidden = false});
+  CityEntity(this.name, this.code, this.hidden, this.area);
 
-  factory CityEntity.fromJson(Map<String, dynamic> json) => _$CityEntityFromJson(json);
+  factory CityEntity.fromJson(Map<String, dynamic> json) {
+    final city = _$CityEntityFromJson(json);
+    if(city.hidden == null) city.hidden = false;
+    return city;
+  }
   Map<String, dynamic> toJson() => _$CityEntityToJson(this);
 
 }

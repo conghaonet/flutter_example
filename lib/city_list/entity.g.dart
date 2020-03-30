@@ -10,11 +10,11 @@ ProvinceEntity _$ProvinceEntityFromJson(Map<String, dynamic> json) {
   return ProvinceEntity(
     json['name'] as String,
     json['code'] as String,
+    json['hidden'] as bool,
     (json['city'] as List)
         ?.map((e) =>
             e == null ? null : CityEntity.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    hidden: json['hidden'] as bool,
   );
 }
 
@@ -30,11 +30,11 @@ CityEntity _$CityEntityFromJson(Map<String, dynamic> json) {
   return CityEntity(
     json['name'] as String,
     json['code'] as String,
+    json['hidden'] as bool,
     (json['area'] as List)
         ?.map((e) =>
             e == null ? null : AreaEntity.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    hidden: json['hidden'] as bool,
   );
 }
 

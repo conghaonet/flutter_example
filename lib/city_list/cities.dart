@@ -83,7 +83,14 @@ class _CitiesState extends State<Cities> {
                 if(provinces.isNotEmpty)
                   Consumer<ProvinceNotifier>(
                     builder: (_, province, __) {
-                      return ProvinceTitle(provinces[province.provinceIndex]);
+                      return InkWell(
+                        onTap: () {
+                          provinces[province.provinceIndex].hidden = !provinces[province.provinceIndex].hidden;
+                          setState(() {
+                          });
+                        },
+                        child: ProvinceTitle(provinces[province.provinceIndex]),
+                      );
                     },
                   ),
               ],
