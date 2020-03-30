@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_example/city_list/entity.dart';
 
 import 'area_item.dart';
+import 'city_title.dart';
 
 class CityItem extends StatefulWidget {
   final CityEntity city;
@@ -18,7 +19,7 @@ class _CityItemState extends State<CityItem> {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        Text('-- 市 -- ${widget.index} - ${widget.city.name}'),
+        CityTitle(widget.city),
         if(widget.city.area != null && widget.city.area.length > 0)
           ListView.custom(
             primary: false,

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_example/city_list/city_item.dart';
 import 'package:flutter_example/city_list/entity.dart';
 import 'package:flutter_example/city_list/province_notifier.dart';
+import 'package:flutter_example/city_list/province_title.dart';
 import 'package:provider/provider.dart';
 
 class ProvinceItem extends StatefulWidget {
@@ -27,11 +28,7 @@ class _ProvinceItemState extends State<ProvinceItem> {
           onTap: () {
 //            Provider.of<ProvinceNotifier>(context, listen: false).updateProvince(widget.index);
           },
-          child: Container(
-            color: Colors.grey,
-            width: double.infinity,
-            child: Text('省 -- ${widget.index} - ${widget.province.name}'),
-          ),
+          child: ProvinceTitle(widget.province),
         ),
         ListView.custom(
           primary: false,

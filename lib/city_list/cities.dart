@@ -8,6 +8,7 @@ import 'package:flutter_example/city_list/entity.dart';
 import 'package:flutter_example/city_list/province_event.dart';
 import 'package:flutter_example/city_list/province_item.dart';
 import 'package:flutter_example/city_list/province_notifier.dart';
+import 'package:flutter_example/city_list/province_title.dart';
 import 'package:provider/provider.dart';
 
 class Cities extends StatefulWidget {
@@ -79,10 +80,8 @@ class _CitiesState extends State<Cities> {
                     },
                   ),
                 ),
-                Container(
-                  color: Colors.blue.withOpacity(0.5),
-                  child: Text('index = ${Provider.of<ProvinceNotifier>(context).provinceIndex}'),
-                ),
+                if(provinces.isNotEmpty)
+                  ProvinceTitle(provinces[Provider.of<ProvinceNotifier>(context).provinceIndex]),
               ],
             ),
           ),
