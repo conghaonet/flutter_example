@@ -14,6 +14,7 @@ ProvinceEntity _$ProvinceEntityFromJson(Map<String, dynamic> json) {
         ?.map((e) =>
             e == null ? null : CityEntity.fromJson(e as Map<String, dynamic>))
         ?.toList(),
+    hidden: json['hidden'] as bool,
   );
 }
 
@@ -21,6 +22,7 @@ Map<String, dynamic> _$ProvinceEntityToJson(ProvinceEntity instance) =>
     <String, dynamic>{
       'name': instance.name,
       'code': instance.code,
+      'hidden': instance.hidden,
       'city': instance.city,
     };
 
@@ -32,6 +34,7 @@ CityEntity _$CityEntityFromJson(Map<String, dynamic> json) {
         ?.map((e) =>
             e == null ? null : AreaEntity.fromJson(e as Map<String, dynamic>))
         ?.toList(),
+    hidden: json['hidden'] as bool,
   );
 }
 
@@ -39,6 +42,7 @@ Map<String, dynamic> _$CityEntityToJson(CityEntity instance) =>
     <String, dynamic>{
       'name': instance.name,
       'code': instance.code,
+      'hidden': instance.hidden,
       'area': instance.area,
     };
 

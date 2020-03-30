@@ -7,9 +7,10 @@ part 'entity.g.dart';
 class ProvinceEntity {
   String name;
   String code;
+  bool hidden;
   List<CityEntity> city;
 
-  ProvinceEntity(this.name, this.code, this.city);
+  ProvinceEntity(this.name, this.code, this.city, {this.hidden = false});
 
   factory ProvinceEntity.fromJson(Map<String, dynamic> json) => _$ProvinceEntityFromJson(json);
   Map<String, dynamic> toJson() => _$ProvinceEntityToJson(this);
@@ -19,9 +20,10 @@ class ProvinceEntity {
 class CityEntity {
   String name;
   String code;
+  bool hidden;
   List<AreaEntity> area;
 
-  CityEntity(this.name, this.code, this.area);
+  CityEntity(this.name, this.code, this.area, {this.hidden = false});
 
   factory CityEntity.fromJson(Map<String, dynamic> json) => _$CityEntityFromJson(json);
   Map<String, dynamic> toJson() => _$CityEntityToJson(this);

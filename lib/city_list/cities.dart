@@ -81,7 +81,11 @@ class _CitiesState extends State<Cities> {
                   ),
                 ),
                 if(provinces.isNotEmpty)
-                  ProvinceTitle(provinces[Provider.of<ProvinceNotifier>(context).provinceIndex]),
+                  Consumer<ProvinceNotifier>(
+                    builder: (_, province, __) {
+                      return ProvinceTitle(provinces[province.provinceIndex]);
+                    },
+                  ),
               ],
             ),
           ),
