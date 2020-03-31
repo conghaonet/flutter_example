@@ -15,6 +15,7 @@ class CityItem extends StatefulWidget {
 class _CityItemState extends State<CityItem> {
   @override
   Widget build(BuildContext context) {
+    print('CityItem index=${widget.index}');
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,

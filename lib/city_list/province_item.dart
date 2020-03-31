@@ -2,9 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_example/city_list/city_item.dart';
 import 'package:flutter_example/city_list/entity.dart';
-import 'package:flutter_example/city_list/province_notifier.dart';
 import 'package:flutter_example/city_list/province_title.dart';
-import 'package:provider/provider.dart';
 
 class ProvinceItem extends StatefulWidget {
   final ProvinceEntity province;
@@ -17,22 +15,17 @@ class ProvinceItem extends StatefulWidget {
 }
 
 class _ProvinceItemState extends State<ProvinceItem> {
-  bool _isHidden = false;
   @override
   Widget build(BuildContext context) {
-//    return Text('${widget.index} - ${widget.province.name}');
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.max,
       children: <Widget>[
         InkWell(
           onTap: () {
-            _isHidden = !_isHidden;
             widget.province.hidden = !(widget.province.hidden ?? false);
             setState(() {
-
             });
-//            Provider.of<ProvinceNotifier>(context, listen: false).updateProvince(widget.index);
           },
           child: ProvinceTitle(widget.province),
         ),
@@ -41,7 +34,7 @@ class _ProvinceItemState extends State<ProvinceItem> {
             primary: false,
             shrinkWrap: true,
             cacheExtent: 0.0,
-            childrenDelegate: SliverChildBuilderDelegate(
+            childrenDelegate: CityDelegate(
               (context, index) {
                 return CityItem(
                   city: widget.province.city[index],
@@ -49,17 +42,38 @@ class _ProvinceItemState extends State<ProvinceItem> {
                   key: ValueKey<CityEntity>(widget.province.city[index]),
                 );
               },
+              provinceIndex: widget.index,
               childCount: widget.province.city?.length ?? 0,
-              addRepaintBoundaries: false, //是否重新绘制边界，false时可能会提高性能。
               findChildIndexCallback: (Key key) {
                 final ValueKey valueKey = key;
                 final CityEntity data = valueKey.value;
                 final index = widget.province.city.indexOf(data);
                 return index;
               },
-            ),
+            ) ,
           ),
       ],
     );
+  }
+}
+
+class CityDelegate extends SliverChildBuilderDelegate {
+  final int provinceIndex;
+  CityDelegate(
+      IndexedWidgetBuilder builder, {
+        this.provinceIndex,
+        int childCount,
+        ChildIndexGetter findChildIndexCallback,
+      }) : super(
+    builder,
+    childCount: childCount,
+    findChildIndexCallback: findChildIndexCallback,
+    addAutomaticKeepAlives: true,
+    addRepaintBoundaries: true, //是否重新绘制边界，false时可能会提高性能。
+  );
+
+  @override
+  void didFinishLayout(int firstIndex, int lastIndex) {
+    print('provinceIndex=$provinceIndex,  city firstIndex=$firstIndex  city lastIndex=$lastIndex');
   }
 }
