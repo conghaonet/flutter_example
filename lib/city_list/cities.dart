@@ -117,7 +117,7 @@ class ProvinceDelegate extends SliverChildBuilderDelegate {
 
   @override
   void didFinishLayout(int firstIndex, int lastIndex) {
-    print('firstIndex=$firstIndex    lastIndex=$lastIndex');
+//    print('firstIndex=$firstIndex    lastIndex=$lastIndex');
     eventBus.fire(ProvinceEvent(firstIndex));
   }
 }

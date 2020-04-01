@@ -8,6 +8,7 @@ class AreaItem extends StatelessWidget {
   AreaItem({this.area, this.index, Key key}): super(key: key);
   @override
   Widget build(BuildContext context) {
+    print('AreaItem    index=$index');
     return Text('---- 县 -- $index - ${area.name}');
   }
 
